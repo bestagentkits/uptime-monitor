@@ -1,0 +1,61 @@
+name: healthz
+
+# SECURITY: only scheduled + manual triggers. Never add pull_request /
+# pull_request_target — this is a PUBLIC repo and jobs read secrets.
+on:
+  schedule:
+    - cron: "*/5 * * * *" # GHA floor; real cadence drifts to ~6-8 min
+  workflow_dispatch:
+
+permissions:
+  contents: write # commit state/status.json heartbeat only
+
+concurrency:
+  group: healthz
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run health checks
+        env:
+          DISCORD_ALERT_WEBHOOK_URL: ${{ secrets.DISCORD_ALERT_WEBHOOK_URL }}
+          HEALTH_CHECK_TOKEN: ${{ secrets.HEALTH_CHECK_TOKEN }}
+        run: node scripts/check.mjs
+
+      - name: Commit state heartbeat
+        run: |
+          git config user.name "uptime-monitor[bot]"
+          git config user.email "uptime-monitor@users.noreply.github.com"
+          git add state/status.json
+          if git diff --cached --quiet; then
+            echo "No state change."
+          else
+            git commit -m "chore: update status [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase --autostash && git push && break || sleep 5
+            done
+          fi
+
+      # Dead-man's-switch: pings an external heartbeat every run. If the monitor
+      # itself dies/misconfigures, the external service alerts you on silence.
+      # Optional — skipped automatically when the secret is unset.
+      - name: Ping dead-man's-switch
+        if: always()
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
+        run: |
+          if [ -n "$HEALTHCHECKS_URL" ]; then
+            curl -fsS --max-time 10 "$HEALTHCHECKS_URL" || true
+          else
+            echo "HEALTHCHECKS_URL unset — dead-man's-switch skipped."
+          fi

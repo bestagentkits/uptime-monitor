@@ -1,0 +1,26 @@
+[
+  {
+    "name": "agentkit-prod",
+    "url": "https://agentkit.best/api/health",
+    "mode": "deep",
+    "latencyMs": 2000
+  },
+  {
+    "name": "agentkit-staging",
+    "url": "https://staging.agentkit.best/api/health",
+    "mode": "deep",
+    "latencyMs": 2500
+  },
+  {
+    "name": "docs-claudekit",
+    "url": "https://docs.claudekit.cc",
+    "mode": "http",
+    "latencyMs": 4000
+  },
+  {
+    "name": "docs-agentkit",
+    "url": "https://docs.agentkit.best",
+    "mode": "http",
+    "latencyMs": 4000
+  }
+]
