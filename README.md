@@ -15,7 +15,7 @@ Configured in [`targets.json`](./targets.json):
 | Target | URL | Mode | Detects |
 |---|---|---|---|
 | agentkit-prod | agentkit.best/api/health | deep | up/down, dependency, latency |
-| agentkit-staging | staging.agentkit.best/api/health | deep | up/down, dependency, latency |
+| agentkit-staging | staging.agentkit.best/api/health | http | up/down, latency (staging omits Redis/ClickHouse) |
 | docs-claudekit | docs.claudekit.cc | http | up/down, latency |
 | docs-agentkit | docs.agentkit.best | http | up/down, latency |
 
