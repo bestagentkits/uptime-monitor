@@ -1,33 +1,33 @@
 {
-  "updatedAt": "2026-11-02T23:25:39.899Z",
+  "updatedAt": "2026-11-02T23:32:48.215Z",
   "targets": {
     "agentkit-prod": {
       "status": "up",
       "http": 200,
-      "latencyMs": 753,
+      "latencyMs": 879,
       "error": null,
-      "checkedAt": "2026-11-02T23:25:39.898Z"
+      "checkedAt": "2026-11-02T23:32:48.214Z"
     },
     "agentkit-staging": {
       "status": "up",
       "http": 200,
-      "latencyMs": 1074,
+      "latencyMs": 1028,
       "error": null,
-      "checkedAt": "2026-11-02T23:25:39.898Z"
+      "checkedAt": "2026-11-02T23:32:48.215Z"
     },
     "docs-claudekit": {
       "status": "up",
       "http": 200,
-      "latencyMs": 685,
+      "latencyMs": 879,
       "error": null,
-      "checkedAt": "2026-11-02T23:25:39.898Z"
+      "checkedAt": "2026-11-02T23:32:48.215Z"
     },
     "docs-agentkit": {
       "status": "up",
       "http": 200,
-      "latencyMs": 203,
+      "latencyMs": 592,
       "error": null,
-      "checkedAt": "2026-11-02T23:25:39.898Z"
+      "checkedAt": "2026-11-02T23:32:48.215Z"
     }
   }
 }
